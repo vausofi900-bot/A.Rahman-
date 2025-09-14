@@ -79,13 +79,13 @@ jobs:
     - run: npm start
 ```
 
-## 📸 IMGUR PHOTO
+## 📸 BOT SCREENSHOT
 [![Bot Screenshot](https://i.imgur.com/iC5LGpU.jpeg)](https://imgur.com/YourPhotoID)
 
 ---
 
 ## ✨ CONTRIBUTORS
-- [Jahidul Islam Sagor](https://github.com/SAGOR-KINGx)
+- [Jahidul Islam Sagor](https://fb.com/JAHIDUL.ISLAM.404)
 
 ---
 
