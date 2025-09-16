@@ -20,7 +20,7 @@ module.exports.run = async function({ api, event, Users, Threads }) {
   const { threadID } = event;
   const data = global.data.threadData.get(parseInt(threadID)) || (await Threads.getData(threadID)).data;
   const name = global.data.userName.get(event.logMessageData.leftParticipantFbId) || await Users.getNameUser(event.logMessageData.leftParticipantFbId);
-  const type = (event.author == event.logMessageData.leftParticipantFbId) ? "He ran away on his own 😐👈" : "The admin kicked him out in anger 😐👈";
+  const type = (event.author == event.logMessageData.leftParticipantFbId) ? "সমস্যা থাকলে আমার বস প্রিন্স রে বলে দাও" : "সমস্যা থাকলে আমার বস প্রিন্স রে বলে যাও";
   (typeof data.customLeave == "undefined") ? msg = "😈 কিরে𒁍{name}\ তোর কি সমস্যা আমার বস প্রিন্স রে বলে যা😈" : msg = data.customLeave;
   msg = msg.replace(/\{name}/g, name).replace(/\{type}/g, type);
 
