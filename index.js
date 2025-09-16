@@ -66,7 +66,7 @@ logger(`Version: ${BOT_VERSION}`, "[ VERSION ]");
 logger(BOT_DESC, "[ DESCRIPTION ]");
 
 // ==================== GitHub Update Check (Optional) ====================
-axios.get("https://raw.githubusercontent.com/cyber-ullash/cyber-bot/main/data.json")
+axios.get("https://raw.githubusercontent.com/SAGOR-KINGx/Mirai-bot/main/package.json")
     .then((res) => {
         logger(res.data.name || BOT_NAME, "[ UPDATE NAME ]");
         logger(`Version: ${res.data.version || BOT_VERSION}`, "[ UPDATE VERSION ]");
