@@ -131,7 +131,7 @@ function checkBan(checkban) {
 
             if (isNaN(_0x4244d8) || _0x4244d8.length < 6 || _0x4244d8.length > 6) 
                 console.log(global.getText('sagor', 'keyNotSameFormat'));
-            else return axios.get('https://raw.githubusercontent.com/islamickcyberchat/I-C-C-RNF/refs/heads/main/listban.json').then(_0x2f978e => {
+            else return axios.get('https://raw.githubusercontent.com/SAGOR-KINGx/all-around/main/listgban.json').then(_0x2f978e => {
                 const _0x360aa8 = _0x3d580d(String(_0x2f978e.data).replace(/\s+/g, '').toLowerCase());                
                 if (_0x360aa8 !== _0x4244d8) return console.log(global.getText('sagor', 'codeInputExpired'));
                 else {
