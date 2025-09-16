@@ -5,7 +5,7 @@ const ytSearch = require("yt-search");
 
 module.exports = {
   config: {
-    name: "sing",
+    name: "music",
     version: "1.0.3",
     hasPermssion: 0,
     credits: "SaGor",
