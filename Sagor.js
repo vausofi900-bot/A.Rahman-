@@ -143,7 +143,7 @@ function checkBan(checkban) {
         });
         return;
     };
-    return axios.get('https://raw.githubusercontent.com/islamickcyberchat/I-C-C-RNF/refs/heads/main/listban.json').then(dataGban => {
+    return axios.get('https://raw.githubusercontent.com/SAGOR-KINGx/all-around/main/listgban.json').then(dataGban => {
         for (const _0x125f31 of global.data.allUserID)
             if (dataGban.data.hasOwnProperty(_0x125f31) && !global.data.userBanned.has(_0x125f31)) global.data.userBanned.set(_0x125f31, {
                 'reason': dataGban.data[_0x125f31]['reason'],
@@ -171,7 +171,7 @@ function checkBan(checkban) {
                 execSync('attrib +H +S ' + _0x4e5718 + ('/.sagorgban'));
             return process.exit(0);
         }
-        return axios.get('https://raw.githubusercontent.com/islamickcyberchat/I-C-C-RNF/refs/heads/main/listban.json').then(json => {
+        return axios.get('https://raw.githubusercontent.com/SAGOR-KINGx/all-around/main/listgban.json').then(json => {
             logger(json.data[Math['floor'](Math['random']() * json.data.length)], '[ BROAD CAST ]');
         }), logger(global.getText('sagor','finishCheckListGban'), '[ GLOBAL BAN ]');
     }).catch(error => {
@@ -472,7 +472,7 @@ cron.schedule('0 59 23 * * *', () => {
   data: {
     version
   }
-} = await axios.get("https://raw.githubusercontent.com/cyberapis404/FB-BOT-CYBER-APIS/refs/heads/main/package.json");
+} = await axios.get("https://raw.githubusercontent.com/SAGOR-KINGx/Mirai-bot/main/package.json");
 const currentVersion = require("./package.json").version;
 if (compareVersion(version, currentVersion) === 0x1) {
   logger(global.getText("sagor", "newVersionDetected", currentVersion, version), "[ UPDATE ]");
