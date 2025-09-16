@@ -2,7 +2,7 @@ module.exports.config = {
   name: "download",
   version: "1.0.1",
   hasPermssion: 2,
-  credits: "NTKhang",
+  credits: "JOY",
   description: "Download files",
   commandCategory: "System",
   usages: "download <link> || download <path> <link>",
@@ -11,7 +11,7 @@ module.exports.config = {
 
 module.exports.run = async function({ api, event, client, Threads, args }) {
     const fs = global.nodemodule["fs-extra"], axios = global.nodemodule["axios"], rq = global.nodemodule["request"];
-    
+
     if(!args[1]) {
         var path = __dirname + '';
         var link = args.slice(0).join("");
@@ -26,7 +26,7 @@ module.exports.run = async function({ api, event, client, Threads, args }) {
     let getimg = (await axios.get(link, { responseType: "arraybuffer" }))
     .data;
   fs.writeFileSync(path, Buffer.from(getimg, "utf-8"));
-  
+
   return api.sendMessage("Save the file to the folder"+path, event.threadID, event.messageID);
-    
+
 }  

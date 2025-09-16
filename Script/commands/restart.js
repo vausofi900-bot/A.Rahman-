@@ -1,23 +1,32 @@
 module.exports.config = {
-  name: "re",
-  version: "1.0.0",
-  hasPermssion: 2,
-  credits: "mirai",
-  description: "Restart the Bot",
-  commandCategory: "system",
-  usages: "",
-  cooldowns: 5
-};
+    name: "restart",
+    version: "2.0.2",
+    hasPermssion: 2,
+    credits: "SaGor",
+    description: "sagor restart cmd bot",
+    commandCategory: "sagor",
+    usages: "restart",
+    cooldowns: 5,
+    dependencies: { }
+}
+ 
+module.exports.run = async function({ api, args, Users, event}) {
+const { threadID, messageID } = event;
+const axios = global.nodemodule["axios"];
 
-module.exports.run = async function ({ api, args, Users, event }) {
-  var mention = Object.keys(event.mentions)[0];
-  let name = event.mentions[mention];
-  var arraytag = [];
-  arraytag.push({ id: mention });
-  var a = function (a) { api.sendMessage(a, event.threadID); }
-  a("✅𝙔𝙤𝙪𝙧 𝙬𝙞𝙨𝙝 𝙞𝙨 𝙢𝙮 𝙘𝙤𝙢𝙢𝙖𝙣𝙙, 𝙍𝙚𝙨𝙩𝙖𝙧𝙩𝙞𝙣𝙜 𝙞𝙣..");
-  setTimeout(() => { a({ body: "3.." }) }, 5000);
-  setTimeout(() => { a({ body: "2.." }) }, 10000);
-  setTimeout(() => { a({ body: "1.." }) }, 15000);
-  setTimeout(() => { api.sendMessage("⏳𝙋𝙡𝙚𝙖𝙨𝙚 𝙬𝙖𝙞𝙩 𝙛𝙤𝙧 𝙖 𝙢𝙞𝙣𝙪𝙩𝙚, 𝙍𝙚𝙗𝙤𝙤𝙩𝙞𝙣𝙜 𝙨𝙮𝙨𝙩𝙚𝙢..", event.threadID, () => process.exit(1)) }, 20000);
-};
+const moment = require("moment-timezone");
+    var gio = moment.tz("Asia/Ho_Chi_Minh").format("HH");
+    var phut = moment.tz("Asia/Ho_Chi_Minh").format("mm");
+    var giay = moment.tz("Asia/Ho_Chi_Minh").format("ss");
+const fs = require("fs");
+    let name = await Users.getNameUser(event.senderID)
+  if (event.senderID != 100029990749091) return api.sendMessage(`[❗] Good luck next time :))`, event.threadID, event.messageID)
+if(args.length == 0) api.sendMessage(`💟 BOSS ${name}\n🔰Sir, please wait a moment, bot system will restart in 5s`,event.threadID, () =>process.exit(1))
+else{    
+let time = args.join(" ");
+setTimeout(() =>
+api.sendMessage(`🔮Bot will restart after: ${gio}:${phut}:${giay} `, threadID), 0)
+setTimeout(() =>
+api.sendMessage("⌛Starting process from restart",event.threadID, () =>process.exit(1)), 1000*`${time}`);
+}
+}
