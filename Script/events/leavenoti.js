@@ -21,7 +21,7 @@ module.exports.run = async function({ api, event, Users, Threads }) {
   const data = global.data.threadData.get(parseInt(threadID)) || (await Threads.getData(threadID)).data;
   const name = global.data.userName.get(event.logMessageData.leftParticipantFbId) || await Users.getNameUser(event.logMessageData.leftParticipantFbId);
   const type = (event.author == event.logMessageData.leftParticipantFbId) ? "He ran away on his own 😐👈" : "The admin kicked him out in anger 😐👈";
-  (typeof data.customLeave == "undefined") ? msg = "┏━━━━━┓\n     SAGOR                    ✧═══•❁😎❁•═══✧\n┗━━━━━┛\n\n\n I have heard that one task was completed in this group 😀👈\nNAME  𒁍  {name}\nREJAN  𒁍 {type} 🤐✌️\n◆━◆━◆━◆━◆━◆━◆━◆━◆━◆━◆━◆━◆━◆\n\nBYE BYE THARKI INSAAN GOOD{session}\n{time} ♥️♥️" : msg = data.customLeave;
+  (typeof data.customLeave == "undefined") ? msg = "😈 কিরে𒁍{name}\ তোর কি সমস্যা আমার বস প্রিন্স রে বলে যা😈" : msg = data.customLeave;
   msg = msg.replace(/\{name}/g, name).replace(/\{type}/g, type);
 
   var link = [  
