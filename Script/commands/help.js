@@ -31,7 +31,7 @@ module.exports.run = async function({ api, event, args }) {
                 helpMessage += "╰───────────◊\n\n";
             }
 
-            helpMessage += `╭────────────◊\n│ » Type [ -help <command> ]\n│ » Total commands: ${totalCommands}\n│ » Author: ✨ SAGOR ✨\n╰────────◊\n\n「 MIRAI BOT 」`;
+            helpMessage += `╭────────────◊\n│ » Type [ -help <command> ]\n│ » Total commands: ${totalCommands}\n│ » Author: ✨ PRINCE ✨\n╰────────◊\n\n「 MIRAI BOT 」`;
 
             return api.sendMessage(helpMessage, event.threadID);
         }
