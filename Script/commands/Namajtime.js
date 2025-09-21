@@ -15,7 +15,7 @@ module.exports.config = {
 const prayerTimes = {
     fajr: "05:00",
     dhuhr: "12:45",
-    asr: "16:00",
+    asr: "14:40",
     maghrib: "18:10",
     isha: "19:30"
 };
