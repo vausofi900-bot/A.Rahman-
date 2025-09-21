@@ -1,107 +1,56 @@
 const axios = require("axios");
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
-const ytSearch = require("yt-search");
 
-module.exports = {
-  config: {
-    name: "music",
-    version: "1.0.3",
-    hasPermssion: 0,
-    credits: "SaGor",
-    description: "Download YouTube song from keyword search and link",
-    commandCategory: "Media",
-    usages: "[songName] [type]",
-    cooldowns: 5,
-    dependencies: {
-      "node-fetch": "",
-      "yt-search": "",
-    },
-  },
+module.exports.config = {
+  name: "music",
+  version: "2.2.0",
+  aliases: ["music", "play"],
+  credits: "SAGOR",
+  description: "Play a YouTube song directly",
+  commandCategory: "media",
+  usages: "song [song name]",
+  cooldowns: 5
+};
 
-  run: async function ({ api, event, args }) {
-    let songName, type;
+async function downloadFile(url, pathName) {
+  const res = await axios.get(url, { responseType: "arraybuffer" });
+  fs.writeFileSync(pathName, Buffer.from(res.data));
+  return fs.createReadStream(pathName);
+}
 
-    if (
-      args.length > 1 &&
-      (args[args.length - 1] === "audio" || args[args.length - 1] === "video")
-    ) {
-      type = args.pop();
-      songName = args.join(" ");
-    } else {
-      songName = args.join(" ");
-      type = "audio";
-    }
+module.exports.run = async ({ api, event, args }) => {
+  const { threadID, messageID, senderID } = event;
 
-    const processingMessage = await api.sendMessage(
-      "Please wait...",
-      event.threadID,
-      null,
-      event.messageID
-    );
+  if (!args || args.length === 0) {
+    return api.sendMessage("❌ Please provide a song name.\nUsage: song [song name]", threadID, messageID);
+  }
 
-    try {
-      const searchResults = await ytSearch(songName);
-      if (!searchResults || !searchResults.videos.length) {
-        throw new Error("No results found for your search query.");
-      }
+  const query = encodeURIComponent(args.join(" "));
+  const baseApi = "https://raw.githubusercontent.com/Blankid018/D1PT0/main/baseApiUrl.json";
 
-      const topResult = searchResults.videos[0];
-      const videoId = topResult.videoId;
+  try {
+    const apiRes = await axios.get(baseApi);
+    const baseUrl = apiRes.data.api;
 
-      const apiKey = "priyansh-here";
-      const apiUrl = `https://priyanshuapi.xyz/youtube?id=${videoId}&type=${type}&apikey=${apiKey}`;
+    // Search YouTube for the song
+    const searchRes = await axios.get(`${baseUrl}/ytFullSearch?songName=${query}`);
+    const track = searchRes.data?.[0];
+    if (!track) return api.sendMessage("❌ No song found for this keyword.", threadID, messageID);
 
-      api.setMessageReaction("⌛", event.messageID, () => {}, true);
+    // Get download link for first result
+    const { data: { title, downloadLink, quality } } = await axios.get(`${baseUrl}/ytDl3?link=${track.id}&format=mp3`);
 
-      const downloadResponse = await axios.get(apiUrl);
-      const downloadUrl = downloadResponse.data.downloadUrl;
+    const audioPath = path.join(__dirname, "cache", `audio_${senderID}_${Date.now()}.mp3`);
+    const stream = await downloadFile(downloadLink, audioPath);
 
-      const safeTitle = topResult.title.replace(/[^a-zA-Z0-9 \-_]/g, "");
-      const filename = `${safeTitle}.${type === "audio" ? "mp3" : "mp4"}`;
-      const downloadPath = path.join(__dirname, "cache", filename);
+    await api.sendMessage({
+      body: `🎵 Title: ${title}\n🔊 Quality: ${quality}`,
+      attachment: stream
+    }, threadID, () => fs.unlinkSync(audioPath), messageID);
 
-      if (!fs.existsSync(path.dirname(downloadPath))) {
-        fs.mkdirSync(path.dirname(downloadPath), { recursive: true });
-      }
-
-      const response = await axios({
-        url: downloadUrl,
-        method: "GET",
-        responseType: "stream",
-      });
-
-      const fileStream = fs.createWriteStream(downloadPath);
-      response.data.pipe(fileStream);
-
-      await new Promise((resolve, reject) => {
-        fileStream.on("finish", resolve);
-        fileStream.on("error", reject);
-      });
-
-      api.setMessageReaction("✅", event.messageID, () => {}, true);
-
-      await api.sendMessage(
-        {
-          attachment: fs.createReadStream(downloadPath),
-          body: `🖤 Title: ${topResult.title}\n\n Here is your ${
-            type === "audio" ? "audio" : "video"
-          } 🎧:`,
-        },
-        event.threadID,
-        () => {
-          fs.unlinkSync(downloadPath);
-          api.unsendMessage(processingMessage.messageID);
-        },
-        event.messageID
-      );
-    } catch (error) {
-      console.error(`Failed to download and send song: ${error.message}`);
-      api.sendMessage(
-        `Failed to download song: ${error.message}`,
-        event.threadID,
-        event.messageID
-      );
-    }
-  },
+  } catch (err) {
+    console.error(err);
+    return api.sendMessage("❌ Failed to fetch or play the song.", threadID, messageID);
+  }
 };
