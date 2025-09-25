@@ -17,8 +17,8 @@ module.exports.handleEvent = async function ({ api, event }) {
     try {
         // ✅ এখানে যাদের mention করলে বট রিপ্লাই দিবে তাদের UID লিখুন
         const targetUsers = [
-            "61579865605110", // এখানে প্রথম ইউজারের UID
-            "61579865605110"  // এখানে দ্বিতীয় ইউজারের UID
+            "", // এখানে প্রথম ইউজারের UID
+            ""  // এখানে দ্বিতীয় ইউজারের UID
         ];
 
         if (event.mentions) {
